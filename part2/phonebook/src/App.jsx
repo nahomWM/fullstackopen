@@ -12,9 +12,6 @@ useEffect(() => {
         setPersons(response.data)
       })
   }, [])
-
-
-
 const [newName, setNewName] = useState('')
 const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
@@ -29,10 +26,12 @@ if (exists) {
   return
     }
 const newperson = {
-    id: persons.length + 1,
+   
      name: newName,
-    phoneNo: newNumber
+    number: newNumber,
+     id: persons.length + 1,
     }
+  axios.post('http://localhost:3001/persons',newperson).then(()=> console.log("succesfully added"))
   const holder = [...persons]
     holder.push(newperson)
     setPersons(holder)
