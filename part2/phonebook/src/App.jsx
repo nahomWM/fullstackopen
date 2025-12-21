@@ -1,15 +1,14 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import ShowNames from './components/ShowNames'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
-
+import phoneService from './services/phonebooks'
 const App = () => {
 const [persons, setPersons] = useState([ ])
 useEffect(() => {
-  axios.get('http://localhost:3001/persons')
+   phoneService.getAll()
       .then(response => {
-        setPersons(response.data)
+        setPersons(response)
       })
   }, [])
 const [newName, setNewName] = useState('')
@@ -31,13 +30,10 @@ const newperson = {
     number: newNumber,
      id: persons.length + 1,
     }
-  axios.post('http://localhost:3001/persons',newperson).then(()=> console.log("succesfully added"))
-  const holder = [...persons]
-    holder.push(newperson)
-    setPersons(holder)
+  phoneService.create(newperson).then((response)=>  { setPersons(persons.concat(response))
     setNewName('')
     setNewNumber('')
-  }
+  })}
 const showOnInput = function(event) {
     setNewName(event.target.value)
   }
@@ -58,7 +54,7 @@ const personsToShow = persons.filter(person =>
    <h2>Add a new</h2>
 
   <PersonForm
-     addPerson={addPerson}
+    addPerson={addPerson}
     newName={newName}
     showOnInput={showOnInput}
     newNumber={newNumber}
