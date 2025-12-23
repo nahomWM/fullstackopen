@@ -3,6 +3,7 @@ import ShowNames from "./components/ShowNames";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import phoneService from "./services/phonebooks";
+import Notification from "./components/Notification";
 const App = () => {
   const [persons, setPersons] = useState([]);
   useEffect(() => {
@@ -13,6 +14,7 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filter, setFilter] = useState("");
+  const [notiMessage, setNotiMessage] = useState(null);
 
   const addPerson = function (event) {
     event.preventDefault();
@@ -38,8 +40,13 @@ const App = () => {
           );
           setNewName("");
           setNewNumber("");
+          setNotiMessage(`Updated ${returnedPerson.name}'s number`);
+          setTimeout(() => {
+            setNotiMessage(null);
+          }, 5000);
         });
       }
+
       return;
     }
     const newperson = { name: newName, number: newNumber };
@@ -47,6 +54,10 @@ const App = () => {
       setPersons(persons.concat(response));
       setNewName("");
       setNewNumber("");
+      setNotiMessage(`Added ${response.name}`);
+      setTimeout(() => {
+        setNotiMessage(null);
+      }, 5000);
     });
   };
   const showOnInput = function (event) {
@@ -72,6 +83,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notiMessage} />
       <Filter filter={filter} addToFilter={addToFilter} />
 
       <h2>Add a new</h2>
