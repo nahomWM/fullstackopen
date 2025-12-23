@@ -1,8 +1,11 @@
-const ListCountry = ({ countries }) => {
+const ListCountry = ({ countries, onShowClick }) => {
   return (
     <div>
       {countries.map((country) => (
-        <p key={country.cca2}>{country.name.common}</p>
+        <div key={country.cca2}>
+          {country.name.common}
+          <button onClick={() => onShowClick(country)}>show</button>
+        </div>
       ))}
     </div>
   );
