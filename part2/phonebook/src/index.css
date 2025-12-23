@@ -12,3 +12,10 @@ h1 {
   padding: 10px;
   margin: 10px 0;
 }
+.notification.success {
+  border: 3px solid green;
+}
+
+.notification.error {
+  border: 3px solid red;
+}
