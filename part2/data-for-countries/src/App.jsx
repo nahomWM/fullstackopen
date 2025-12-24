@@ -7,21 +7,32 @@ const App = () => {
   const [countries, setCountries] = useState([]);
   const [filter, setFilter] = useState("");
   const [selectedCountry, setSelectedCountry] = useState(null);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     countriesMain.getAll().then((data) => {
       setCountries(data);
+      setLoading(false);
     });
   }, []);
+
   const filteredCountries = countries.filter((country) =>
     country.name.common.toLowerCase().includes(filter.toLowerCase())
   );
+
   const handleShowClick = (country) => {
     setSelectedCountry(country);
   };
+
   const handleFilterChange = (e) => {
     setFilter(e.target.value);
     setSelectedCountry(null);
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   if (filteredCountries.length > 10) {
     return (
       <div>
