@@ -34,6 +34,14 @@ app.post("/api/persons", (request, response) => {
       error: "name or number missing",
     });
   }
+  const nameExists = data.some(
+    (person) => person.name.toLowerCase() === body.name.toLowerCase(),
+  );
+  if (nameExists) {
+    return response.status(400).json({
+      error: "name must be unique",
+    });
+  }
   const person = {
     id: Math.floor(Math.random() * 1000000).toString(),
     name: body.name,
