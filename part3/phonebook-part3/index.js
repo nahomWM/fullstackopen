@@ -8,6 +8,7 @@ morgan.token("body", (req) => JSON.stringify(req.body));
 app.use(
   morgan(":method :url :status :res[content-length] - :response-time ms :body"),
 );
+app.use(express.static(path.join(__dirname, "dist")));
 let data = require("./data.json");
 app.get("/api/persons", (request, response) => {
   response.json(data);
@@ -57,7 +58,11 @@ app.post("/api/persons", (request, response) => {
   data = data.concat(person);
   response.json(person);
 });
-const PORT = process.env.PORT || 3001;;
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
+});
+
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`server is running on port ${PORT}`);
 });
